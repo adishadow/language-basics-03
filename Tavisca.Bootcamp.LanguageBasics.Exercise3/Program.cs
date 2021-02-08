@@ -40,8 +40,142 @@ namespace Tavisca.Bootcamp.LanguageBasics.Exercise1
 
         public static int[] SelectMeals(int[] protein, int[] carbs, int[] fat, string[] dietPlans)
         {
-            // Add your code here.
-            throw new NotImplementedException();
+            int[] calorie = new int[protein.Length];
+            for (int i = 0; i < protein.Length; i++)
+            {
+                calorie[i] = 9 * fat[i] + 5 * (carbs[i] + protein[i]);
+
+            }
+           
+            int[] result = new int[dietPlans.Length];
+            for (int i=0; i < dietPlans.Length; i++)
+            {
+                int[] effectiveIndex = new int[protein.Length];
+                for (int j = 0; j < protein.Length; j++)
+                {
+                    effectiveIndex[j] = j;
+                }
+                foreach (char p in dietPlans[i])
+                {
+                    if (p == 'P')
+                    {
+                        effectiveIndex = GetMax(protein, effectiveIndex);
+                        if (effectiveIndex.Length == 1)
+                        {
+                            break;
+                        }
+                    }
+                    if (p == 'p')
+                    {
+                        effectiveIndex = GetMin(protein, effectiveIndex);
+                        if (effectiveIndex.Length == 1)
+                        {
+                            break;
+                        }
+                    }
+                    if (p == 'C')
+                    {
+                        effectiveIndex = GetMax(carbs, effectiveIndex);
+                        if (effectiveIndex.Length == 1)
+                        {
+                            break;
+                        }
+                    }
+                    if (p == 'c')
+                    {
+                        effectiveIndex = GetMin(carbs, effectiveIndex);
+                        if (effectiveIndex.Length == 1)
+                        {
+                            break;
+                        }
+                    }
+                    if (p == 'F')
+                    {
+                        effectiveIndex = GetMax(fat, effectiveIndex);
+                        if (effectiveIndex.Length == 1)
+                        {
+                            break;
+                        }
+                    }
+                    if (p == 'f')
+                    {
+                        effectiveIndex = GetMin(fat, effectiveIndex);
+                        if (effectiveIndex.Length == 1)
+                        {
+                            break;
+                        }
+                    }
+                    if (p == 'T')
+                    {
+                        effectiveIndex = GetMax(calorie, effectiveIndex);
+                        if (effectiveIndex.Length == 1)
+                        {
+                            break;
+                        }
+                    }
+                    if (p == 't')
+                    {
+                        effectiveIndex = GetMin(calorie, effectiveIndex);
+                        if (effectiveIndex.Length == 1)
+                        {
+                            break;
+                        }
+                    }
+
+                }
+
+           
+                result[i] = effectiveIndex[0];
+
+            }
+
+
+
+
+            return result;
+        }
+
+        public static int[] GetMin(int[] arr, int[] effectiveIndex)
+        {
+            List<int> result = new List<int>();
+            int min = int.MaxValue;
+            foreach (int i in effectiveIndex)
+            {
+                if (min > arr[i])
+                {
+                    min = arr[i];
+                }
+            }
+            foreach (int i in effectiveIndex)
+            {
+                if (arr[i] == min)
+                {
+                    result.Add(i);
+                }
+            }
+
+            return result.ToArray();
+        }
+        public static int[] GetMax(int[] arr, int[] effectiveIndex)
+        {
+            List<int> result = new List<int>();
+            int max = int.MinValue;
+            foreach (int i in effectiveIndex)
+            {
+                if (max < arr[i])
+                {
+                    max = arr[i];
+                }
+            }
+            foreach (int i in effectiveIndex)
+            {
+                if (arr[i] == max)
+                {
+                    result.Add(i);
+                }
+            }
+
+            return result.ToArray();
         }
     }
 }
